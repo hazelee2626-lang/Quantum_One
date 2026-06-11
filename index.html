@@ -189,6 +189,18 @@ export default function QuantumOne() {
   const tickRef = useRef(null);
   const mounted = useRef(true);
 
+  /* 폰트를 head에 확실히 주입 (CSS @import 누락 대비) */
+  useEffect(() => {
+    const id = "qone-fonts";
+    if (!document.getElementById(id)) {
+      const l = document.createElement("link");
+      l.id = id;
+      l.rel = "stylesheet";
+      l.href = "https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap";
+      document.head.appendChild(l);
+    }
+  }, []);
+
   useEffect(() => {
     mounted.current = true;
     (async () => {
@@ -388,12 +400,12 @@ ${recent}
     .q1 { min-height: 100vh; background: #EFE6D2;
           background-image: radial-gradient(rgba(123,103,73,0.10) 1px, transparent 1px);
           background-size: 17px 17px;
-          color: #5B4A38; font-family: 'Gowun Dodum', sans-serif; font-size: 14px;
+          color: #5B4A38; font-family: 'Gowun Dodum', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif; font-size: 14px;
           display: flex; flex-direction: column; align-items: center; padding: 22px 16px 60px; }
     .q1 .book { width: 100%; max-width: 440px; }
     .q1 .head { text-align: center; margin-bottom: 16px; }
-    .q1 .head h1 { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 30px; color: #4A3B2A; line-height: 1.2; }
-    .q1 .head .sub { font-family: 'Gaegu', cursive; font-size: 15px; color: #9A8A6F; }
+    .q1 .head h1 { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 30px; color: #4A3B2A; line-height: 1.2; }
+    .q1 .head .sub { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-size: 15px; color: #9A8A6F; }
     .q1 .paper { background: #FFFDF6; border: 1.5px solid #DCCFB2; border-radius: 14px;
                  box-shadow: 0 3px 0 #DCCFB2, 0 12px 26px rgba(91,74,56,0.10); }
     .q1 .tape { position: absolute; top: -11px; left: 50%; transform: translateX(-50%) rotate(-2.5deg);
@@ -406,7 +418,7 @@ ${recent}
     .q1 .dogbox { position: relative; display: flex; align-items: center; gap: 10px;
                   padding: 18px 16px 14px; margin-bottom: 14px; }
     .q1 .doginfo { flex: 1; }
-    .q1 .dogname { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 21px; color: #4A3B2A; }
+    .q1 .dogname { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 21px; color: #4A3B2A; }
     .q1 .dogtitle { font-size: 12px; color: #9A8A6F; margin: 1px 0 9px; }
     .q1 .bonebar { height: 10px; background: #EFE6D2; border-radius: 99px; border: 1.5px solid #DCCFB2; overflow: hidden; }
     .q1 .bonefill { height: 100%; background: linear-gradient(90deg, #E8B95C, #D9A441); border-radius: 99px; transition: width .6s ease; }
@@ -423,24 +435,24 @@ ${recent}
     .q1 .strip { display: flex; padding: 12px 4px; margin-bottom: 12px; }
     .q1 .strip > div { flex: 1; text-align: center; }
     .q1 .strip > div + div { border-left: 1.5px dashed #DCCFB2; }
-    .q1 .strip b { display: block; font-family: 'Gaegu', cursive; font-weight: 700; font-size: 24px; color: #B5563C; }
+    .q1 .strip b { display: block; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 24px; color: #B5563C; }
     .q1 .strip i { font-style: normal; font-size: 10.5px; color: #9A8A6F; }
 
     /* 도장판 */
     .q1 .stampbook { padding: 13px 15px 12px; margin-bottom: 12px; }
-    .q1 .stampbook h5 { font-family: 'Gaegu', cursive; font-size: 15px; color: #7B6749; margin-bottom: 8px; }
+    .q1 .stampbook h5 { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-size: 15px; color: #7B6749; margin-bottom: 8px; }
     .q1 .sgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
     .q1 .scell { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 1.5px dashed #D8CBAE;
                  display: flex; align-items: center; justify-content: center; }
     .q1 .scell.got { border: none; background: radial-gradient(circle, #C75146 58%, #B5402F 100%);
                      box-shadow: inset 0 0 0 2px #FFFDF6, inset 0 0 0 3.5px #C75146; }
-    .q1 .scell.got::after { content: "잘"; font-family: 'Gaegu', cursive; font-size: 11px; color: #FFF3EC; font-weight: 700; }
+    .q1 .scell.got::after { content: "잘"; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-size: 11px; color: #FFF3EC; font-weight: 700; }
     .q1 .scell.many.got::after { content: "최고"; font-size: 9px; }
     .q1 .scell.today { outline: 2px solid #D9A441; outline-offset: 2px; }
 
     /* 버튼 */
     .q1 .bigbtn { width: 100%; padding: 18px; border: none; border-radius: 16px; cursor: pointer;
-                  background: #C75146; color: #FFF7F0; font-family: 'Gaegu', cursive; font-weight: 700;
+                  background: #C75146; color: #FFF7F0; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700;
                   font-size: 21px; letter-spacing: 0.02em;
                   box-shadow: 0 4px 0 #9E3B2C, 0 12px 24px rgba(199,81,70,0.3); transition: all .1s; }
     .q1 .bigbtn:active { transform: translateY(3px); box-shadow: 0 1px 0 #9E3B2C; }
@@ -450,7 +462,7 @@ ${recent}
                  font-family: 'Gowun Dodum', sans-serif; }
     .q1 .row2 { display: flex; gap: 9px; margin-top: 14px; }
     .q1 .okbtn { flex: 1.5; padding: 15px; border: none; border-radius: 13px; cursor: pointer;
-                 background: #C75146; color: #FFF7F0; font-family: 'Gaegu', cursive; font-weight: 700; font-size: 17px;
+                 background: #C75146; color: #FFF7F0; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 17px;
                  box-shadow: 0 4px 0 #9E3B2C; transition: all .1s; }
     .q1 .okbtn:active { transform: translateY(3px); box-shadow: 0 1px 0 #9E3B2C; }
     .q1 .easybtn { flex: 1; padding: 15px 6px; border: 1.5px solid #D9A441; border-radius: 13px; cursor: pointer;
@@ -465,23 +477,23 @@ ${recent}
                  background:
                    repeating-linear-gradient(0deg, transparent 0 29px, rgba(123,103,73,0.09) 29px 30px),
                    #FFFDF6; }
-    .q1 .vtag { display: inline-block; font-family: 'Gaegu', cursive; font-size: 13.5px; color: #6F8A66;
+    .q1 .vtag { display: inline-block; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-size: 13.5px; color: #6F8A66;
                 background: #EBF2E4; border: 1.5px solid #C7D8BB; border-radius: 99px; padding: 3px 12px; }
-    .q1 .tasktitle { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 24px; line-height: 1.45;
+    .q1 .tasktitle { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 24px; line-height: 1.45;
                      margin: 12px 0 10px; color: #3F3527; }
     .q1 .why { font-size: 13.5px; line-height: 1.8; color: #7B6F5A; margin-bottom: 14px; }
     .q1 .first { background: #FBF3DD; border: 1.5px dashed #E0C588; border-radius: 11px; padding: 11px 13px;
                  font-size: 13.5px; line-height: 1.65; }
-    .q1 .first b { color: #A8770F; font-size: 12px; display: block; margin-bottom: 3px; font-family: 'Gaegu', cursive; font-weight: 700; }
+    .q1 .first b { color: #A8770F; font-size: 12px; display: block; margin-bottom: 3px; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; }
     .q1 .meta2 { margin-top: 11px; font-size: 11.5px; color: #A89B82; }
 
     /* 타이머 */
     .q1 .timer { display: flex; align-items: center; gap: 10px; margin-top: 13px; padding: 11px 14px;
                  background: #F5EEDC; border: 1.5px solid #DCCFB2; border-radius: 12px; }
-    .q1 .timer .t { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 25px; color: #4A3B2A;
+    .q1 .timer .t { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 25px; color: #4A3B2A;
                     letter-spacing: 0.06em; min-width: 76px; }
     .q1 .timer button { padding: 9px 16px; border: none; border-radius: 9px; cursor: pointer;
-                        font-family: 'Gaegu', cursive; font-weight: 700; font-size: 15px;
+                        font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 15px;
                         background: #7E9B6E; color: #FFFDF6; box-shadow: 0 3px 0 #5F7B51; }
     .q1 .timer button.stop { background: #C9BB9C; box-shadow: 0 3px 0 #A89B82; }
     .q1 .timer .lbl { flex: 1; font-size: 11.5px; color: #9A8A6F; line-height: 1.5; }
@@ -492,7 +504,7 @@ ${recent}
                    font-size: 14px; font-family: 'Gowun Dodum', sans-serif; outline: none; }
     .q1 textarea { min-height: 74px; resize: vertical; }
     .q1 textarea:focus, .q1 input:focus { border-color: #C75146; box-shadow: 0 0 0 3px rgba(199,81,70,0.12); }
-    .q1 .qlabel { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 16px; color: #7B6749; margin: 20px 0 8px; }
+    .q1 .qlabel { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 16px; color: #7B6749; margin: 20px 0 8px; }
 
     /* 옵션 */
     .q1 .opts { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; }
@@ -500,7 +512,7 @@ ${recent}
     .q1 .opt { background: #FFFDF6; border: 1.5px solid #DCCFB2; border-radius: 12px; padding: 13px 6px;
                text-align: center; cursor: pointer; color: #5B4A38; font-family: 'Gowun Dodum', sans-serif;
                box-shadow: 0 2px 0 #DCCFB2; transition: all .1s; }
-    .q1 .opt b { display: block; font-family: 'Gaegu', cursive; font-weight: 700; font-size: 18px; }
+    .q1 .opt b { display: block; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 18px; }
     .q1 .opt i { font-style: normal; font-size: 10.5px; color: #9A8A6F; }
     .q1 .opt.on { border-color: #C75146; background: #FAEAE5; box-shadow: 0 2px 0 #C75146; color: #8E3B2C; }
 
@@ -509,7 +521,7 @@ ${recent}
     .q1 .proj .top { display: flex; align-items: center; gap: 8px; }
     .q1 .proj .nm { flex: 1; font-size: 13.5px; line-height: 1.5; }
     .q1 .proj .nm small { display: block; font-size: 10.5px; color: #9A8A6F; }
-    .q1 .dd { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 12px; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+    .q1 .dd { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 12px; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
     .q1 .dd.hot { background: #FAE3DE; color: #B5402F; border: 1.5px solid #E8AFA3; }
     .q1 .dd.warm { background: #FBF3DD; color: #A8770F; border: 1.5px solid #E0C588; }
     .q1 .dd.cool { background: #EBF2E4; color: #5F7B51; border: 1.5px solid #C7D8BB; }
@@ -519,7 +531,7 @@ ${recent}
                    display: flex; flex-direction: column; gap: 8px; }
     .q1 .editbox .h { display: flex; gap: 8px; }
     .q1 .smallbtn { padding: 11px 15px; border: none; border-radius: 9px; cursor: pointer;
-                    font-family: 'Gaegu', cursive; font-weight: 700; font-size: 15px;
+                    font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 15px;
                     background: #C75146; color: #FFF7F0; box-shadow: 0 3px 0 #9E3B2C; }
     .q1 .smallbtn.gray { background: #E5DBC4; color: #7B6F5A; box-shadow: 0 3px 0 #C9BB9C; }
 
@@ -537,24 +549,24 @@ ${recent}
     /* 기록 */
     .q1 .log { margin-top: 20px; }
     .q1 .logitem { padding: 10px 2px; border-bottom: 1.5px dashed #DCCFB2; font-size: 12.5px; line-height: 1.6; }
-    .q1 .logitem .d { font-family: 'Gaegu', cursive; color: #B5563C; font-weight: 700; font-size: 13px; }
+    .q1 .logitem .d { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; color: #B5563C; font-weight: 700; font-size: 13px; }
     .q1 .logitem .msg { color: #5B4A38; }
     .q1 .logitem .sub { color: #A89B82; font-size: 11.5px; }
     .q1 .notice { color: #A8770F; font-size: 12px; margin-top: 9px; text-align: center; line-height: 1.6; }
     .q1 .hint { font-size: 11.5px; color: #A89B82; margin-top: 7px; line-height: 1.65; }
     .q1 .center { text-align: center; padding: 40px 0 24px; }
-    .q1 .motto { text-align: center; font-family: 'Gaegu', cursive; font-size: 14px; color: #A89B82; margin-top: 24px; line-height: 1.7; }
+    .q1 .motto { text-align: center; font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-size: 14px; color: #A89B82; margin-top: 24px; line-height: 1.7; }
 
     /* 참 잘했어요 도장 */
     .q1 .bigstamp { width: 148px; height: 148px; border-radius: 50%; margin: 6px auto 0;
                     border: 5px solid #C75146; display: flex; flex-direction: column; align-items: center; justify-content: center;
                     color: #C75146; transform: rotate(-12deg);
                     box-shadow: inset 0 0 0 3px #FFFDF6, inset 0 0 0 5px #C75146; }
-    .q1 .bigstamp .a { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 31px; line-height: 1.15; }
-    .q1 .bigstamp .b { font-family: 'Gaegu', cursive; font-size: 13px; }
+    .q1 .bigstamp .a { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 31px; line-height: 1.15; }
+    .q1 .bigstamp .b { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-size: 13px; }
     .q1 .stampIn { animation: stampIn .45s cubic-bezier(.2,1.6,.4,1) both; }
     @keyframes stampIn { from { transform: rotate(-12deg) scale(2.6); opacity: 0; } to { transform: rotate(-12deg) scale(1); opacity: 1; } }
-    .q1 .evolve { font-family: 'Gaegu', cursive; font-weight: 700; font-size: 23px; color: #A8770F; margin-top: 14px; }
+    .q1 .evolve { font-family: 'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive; font-weight: 700; font-size: 23px; color: #A8770F; margin-top: 14px; }
   `;
 
   const ddClass = (dl) => {
@@ -582,7 +594,7 @@ ${recent}
       <div className="q1"><style>{css}</style>
         <div className="book center">
           <Danchu stageIdx={stageIdx} happy size={130} />
-          <div style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700, fontSize: 20, marginTop: 8 }}>{workingMsg}…</div>
+          <div style={{ fontFamily: "'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive", fontWeight: 700, fontSize: 20, marginTop: 8 }}>{workingMsg}…</div>
           <div className="hint">마감일이 급한 것부터 킁킁 🦴</div>
         </div>
       </div>
@@ -797,7 +809,7 @@ ${recent}
           {justEvolved ? (
             <div className="evolve">🎉 단추가 자랐어요! — {stage.title}</div>
           ) : (
-            <div style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700, fontSize: 19, marginTop: 8, color: "#4A3B2A" }}>단추가 뼈다귀를 받았어요 🦴</div>
+            <div style={{ fontFamily: "'Gaegu', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', cursive", fontWeight: 700, fontSize: 19, marginTop: 8, color: "#4A3B2A" }}>단추가 뼈다귀를 받았어요 🦴</div>
           )}
           <div className="hint">연속 {streak}일 · 도장 {total}개{toNext !== null ? ` · 다음 성장까지 ${toNext}개` : ""}</div>
           <div style={{ marginTop: 24, width: "100%" }}>
@@ -810,4 +822,3 @@ ${recent}
 
   return (<div className="q1"><style>{css}</style><div className="book center"><button className="bigbtn" onClick={() => setScreen("home")}>수첩으로</button></div></div>);
 }
-
