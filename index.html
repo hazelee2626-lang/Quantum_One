@@ -41,7 +41,7 @@
       radial-gradient(38px 14px at 45% 17%, #FFFFFFCC 60%, transparent 61%);
     animation: drift 60s linear infinite; }
   @keyframes drift { from { background-position: 0 0; } to { background-position: 430px 0; } }
-  @media (prefers-reduced-motion: reduce) { .clouds, .dog-idle, .dog-bounce, .dog-tail, .payday-burst, .buildmsg { animation: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .clouds, .hz-idle, .hz-bounce, .payday-burst, .buildmsg, .crane-load, .spark, .particles span { animation: none !important; } }
 
   /* 시그니처: 나무 판자 UI */
   .plank { background: linear-gradient(180deg, var(--plank), var(--plank2));
@@ -63,7 +63,7 @@
   .game-title { font-family: 'Jua', 'Apple SD Gothic Neo', sans-serif; font-size: 54px; line-height: 1.12;
                 color: var(--wood2); text-shadow: 0 3px 0 #FFF, 0 6px 0 rgba(110,82,56,.25); margin: 8px 0; }
   .title-sub { color: var(--ink-soft); font-size: 13.5px; }
-  .title-dog { margin: 22px 0 6px; }
+  .title-hero { margin: 18px 0 4px; filter: drop-shadow(0 4px 4px rgba(74,59,42,.25)); }
   .title-foot { margin-top: 24px; color: var(--ink-soft); font-size: 12px; }
 
   /* 마을 헤더 */
@@ -86,26 +86,27 @@
            border: 2.5px solid var(--wood); border-radius: 16px; padding: 14px 12px 18px;
            box-shadow: inset 0 3px 0 rgba(255,255,255,.25), 0 5px 0 var(--wood2), 0 12px 22px rgba(74,59,42,.2);
            margin-bottom: 12px; position: relative; }
-  .plots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; position: relative; }
-  .plot { aspect-ratio: 1; border-radius: 12px; cursor: pointer; padding: 6px 4px;
-          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  .plots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; position: relative; }
+  .plot { border-radius: 12px; cursor: pointer; padding: 4px 4px 7px;
+          display: flex; flex-direction: column; align-items: center; gap: 1px;
+          background: rgba(255,255,255,.14); border: 2px solid rgba(110,82,56,.35);
           font-family: inherit; transition: transform .08s; }
-  .plot:active { transform: scale(.95); }
-  .plot.st0 { background: rgba(255,255,255,.18); border: 2px dashed rgba(74,59,42,.4); color: var(--ink-soft); }
-  .plot.st1, .plot.st2 { background: var(--soil); border: 2px solid var(--wood); box-shadow: 0 3px 0 var(--wood2); }
-  .plot.st3 { background: var(--cream); border: 2px solid var(--gold); box-shadow: 0 3px 0 #A87F2C, 0 0 14px rgba(217,164,65,.45); }
+  .plot:active { transform: scale(.96); }
+  .plot.complete { background: rgba(255,253,244,.55); border-color: var(--gold);
+                   box-shadow: 0 0 16px rgba(217,164,65,.5), 0 3px 0 #A87F2C; }
   .plot.sel { outline: 3px solid #FFF; outline-offset: 2px; }
-  .plot-emoji { font-size: 26px; line-height: 1; }
-  .plot-name { font-size: 9.5px; color: var(--ink); line-height: 1.25; text-align: center; }
-  .plot-stage { font-family: 'Jua', sans-serif; font-size: 9px; color: var(--ink-soft); }
-  .field-dog { position: absolute; right: -4px; bottom: -16px; pointer-events: none; }
+  .plot-name { font-size: 10px; color: var(--ink); line-height: 1.25; text-align: center;
+               font-family: 'Jua', 'Apple SD Gothic Neo', sans-serif; }
+  .field-hero { position: absolute; right: -2px; bottom: -18px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(74,59,42,.3)); }
+  .crane-load { animation: sway 2.4s ease-in-out infinite; transform-origin: 54px 33px; }
+  @keyframes sway { 0%,100% { transform: rotate(-4deg);} 50% { transform: rotate(4deg);} }
+  .spark { animation: sparkle 1.6s ease-in-out infinite; }
+  @keyframes sparkle { 0%,100% { opacity: .5;} 50% { opacity: 1;} }
 
-  .dog-idle { animation: breathe 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
-  @keyframes breathe { 0%,100% { transform: scale(1);} 50% { transform: scale(1.03);} }
-  .dog-bounce { animation: hop .7s ease-in-out infinite; transform-origin: 50% 100%; }
-  @keyframes hop { 0%,100% { transform: translateY(0);} 40% { transform: translateY(-7px) rotate(-2deg);} }
-  .dog-tail { transform-origin: 97px 78px; animation: wag .9s ease-in-out infinite; }
-  @keyframes wag { 0%,100% { transform: rotate(0);} 50% { transform: rotate(14deg);} }
+  .hz-idle { animation: breathe 3.2s ease-in-out infinite; transform-origin: 50% 92%; }
+  @keyframes breathe { 0%,100% { transform: scale(1);} 50% { transform: scale(1.02);} }
+  .hz-bounce { animation: hop .75s ease-in-out infinite; transform-origin: 50% 100%; }
+  @keyframes hop { 0%,100% { transform: translateY(0);} 40% { transform: translateY(-6px) rotate(-1.5deg);} }
 
   /* 건물 상세 */
   .detail { padding: 13px 14px; margin-bottom: 12px; }
@@ -231,13 +232,51 @@
                   text-shadow: 0 3px 0 #FFF, 0 6px 0 rgba(168,127,44,.3);
                   animation: burst .5s cubic-bezier(.2,1.7,.4,1) both; }
   @keyframes burst { from { transform: scale(2.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .payday-dog { margin: 16px 0 4px; }
+  .payday-hero { margin: 14px 0 2px; filter: drop-shadow(0 4px 4px rgba(74,59,42,.25)); }
   .payday-msg { font-size: 13.5px; color: var(--ink-soft); }
   .loot-row { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
   .loot { padding: 12px 18px; }
   .loot b { display: block; font-family: 'Jua', sans-serif; font-size: 24px; color: var(--green); font-weight: 400; }
   .loot i { font-style: normal; font-size: 11px; color: var(--ink-soft); }
   .payday-total { margin-top: 16px; font-size: 12.5px; color: var(--ink-soft); }
+
+  /* 번뜩 할 일 */
+  .btn-flash { display: block; width: 100%; padding: 13px; margin-bottom: 11px; border-radius: 11px; cursor: pointer;
+               border: 2px solid #C2A35C; background: linear-gradient(180deg, #FFF6DC, #F5E2AE);
+               color: #8A6510; font-family: 'Jua', 'Apple SD Gothic Neo', sans-serif; font-size: 15px;
+               box-shadow: 0 4px 0 #C2A35C; }
+  .btn-flash:active { transform: translateY(3px); box-shadow: 0 1px 0 #C2A35C; }
+  .flashbox { padding: 13px 14px; margin-bottom: 11px; display: flex; flex-direction: column; gap: 8px; }
+  select { width: 100%; padding: 11px 12px; border-radius: 10px; font-size: 13.5px;
+           font-family: 'Gowun Dodum', 'Apple SD Gothic Neo', sans-serif; outline: none;
+           background: #FFFDF4; border: 1.5px solid var(--wood); color: var(--ink);
+           -webkit-appearance: none; appearance: none; }
+  select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(217,164,65,.2); }
+
+  /* 의뢰별 할 일 목록 */
+  .todos { margin-top: 10px; padding-top: 9px; border-top: 1.5px dashed var(--wood); }
+  .todo { display: flex; align-items: center; gap: 7px; padding: 5px 0; font-size: 13px; }
+  .todo.done .todo-text { text-decoration: line-through; color: #A89B82; }
+  .todo-check { border: none; background: none; cursor: pointer; font-size: 16px; color: var(--ink); padding: 0; line-height: 1; }
+  .todo-text { flex: 1; min-width: 0; line-height: 1.5; }
+  .todo-del { border: none; background: none; cursor: pointer; color: #B5A584; font-size: 12px; padding: 2px 4px; }
+  .todo-add { display: flex; gap: 7px; margin-top: 6px; }
+  .todo-add input { flex: 1; min-width: 0; padding: 9px 11px; font-size: 12.5px; }
+  .todo-add .btn-sub { padding: 8px 13px; font-size: 13px; }
+
+  /* 정산 파티클 */
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+  .particles span { position: absolute; bottom: -10%; font-size: 24px; opacity: 0;
+                    animation: rise 2.4s ease-out forwards; }
+  .particles span:nth-child(1) { left: 14%; animation-delay: .05s; }
+  .particles span:nth-child(2) { left: 30%; animation-delay: .3s; font-size: 20px; }
+  .particles span:nth-child(3) { left: 50%; animation-delay: .15s; font-size: 28px; }
+  .particles span:nth-child(4) { left: 66%; animation-delay: .45s; }
+  .particles span:nth-child(5) { left: 80%; animation-delay: .25s; font-size: 20px; }
+  .particles span:nth-child(6) { left: 42%; animation-delay: .6s; font-size: 18px; }
+  @keyframes rise { 0% { transform: translateY(0) rotate(0); opacity: 0; }
+                    15% { opacity: 1; }
+                    100% { transform: translateY(-78vh) rotate(24deg); opacity: 0; } }
 </style>
 </head>
 <body>
@@ -246,8 +285,8 @@
 const { useState, useEffect, useRef } = React;
 
 /* ═══════════════════════════════════════
-   하젤마을 타이쿤 — HAZEL VILLAGE TYCOON
-   현실의 작업 1개 = 자원 채집 = 마을 건설
+   하젤마을 타이쿤 v2 — HAZEL VILLAGE TYCOON
+   현실의 작업 = 자원 = 마을 건설
    ═══════════════════════════════════════ */
 
 const todayKey = () => {
@@ -263,68 +302,178 @@ const ddayLabel = (dl) => {
   return n > 0 ? "D-" + n : Math.abs(n) + "일 지남";
 };
 
-/* ── 마을 건물 (타이쿤 코어) ── */
+/* ── 효과음 (실패해도 게임은 계속) ── */
+let audioCtx = null;
+function sfx(kind) {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const notes = kind === "build" ? [392, 523, 659] : kind === "done" ? [523, 659, 784] : [659];
+    notes.forEach((f, i) => {
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = "triangle"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.12, audioCtx.currentTime + i * 0.09);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.09 + 0.25);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(audioCtx.currentTime + i * 0.09); o.stop(audioCtx.currentTime + i * 0.09 + 0.3);
+    });
+  } catch (e) {}
+}
+
+/* ── 마을 건물 ── */
 const BUILDINGS = [
-  { id: "doghouse", name: "단추네 집", emoji: "🐶", done: "🏠", desc: "마을 반장견의 보금자리",
+  { id: "doghouse", name: "윌로우 & 코이네 집", desc: "마을 수호견 두 마리의 보금자리", body: "#E8C896", roof: "#C97B4A", sign: "🐾",
     stages: [{ w: 4 }, { w: 6, b: 2 }, { w: 8, b: 3 }] },
-  { id: "bbq", name: "K BBQ 본점", emoji: "🥩", done: "🏮", desc: "마을에서 제일 맛있는 냄새",
+  { id: "bbq", name: "K BBQ 본점", desc: "마을에서 제일 맛있는 냄새", body: "#F2D8C0", roof: "#C75146", sign: "🥩",
     stages: [{ w: 6, b: 2 }, { w: 8, b: 4, g: 1 }, { w: 10, b: 6, g: 2 }] },
-  { id: "notion", name: "노션 대학교", emoji: "📚", done: "🏫", desc: "마을 사람들이 배우러 오는 곳",
+  { id: "notion", name: "노션 대학교", desc: "마을 사람들이 배우러 오는 곳", body: "#E3EDF5", roof: "#5B7FA6", sign: "📚",
     stages: [{ w: 6, b: 3 }, { w: 9, b: 5, g: 1 }, { w: 12, b: 7, g: 2 }] },
-  { id: "trade", name: "한미 무역상점", emoji: "📦", done: "🏪", desc: "바다 건너 물건이 오가는 곳",
+  { id: "trade", name: "한미 무역상점", desc: "바다 건너 물건이 오가는 곳", body: "#DDEFE4", roof: "#4E8A6E", sign: "📦",
     stages: [{ w: 7, b: 3, g: 1 }, { w: 10, b: 6, g: 2 }, { w: 13, b: 8, g: 3 }] },
-  { id: "press", name: "블로그 신문사", emoji: "✍️", done: "📰", desc: "하젤의 이야기가 인쇄되는 곳",
+  { id: "press", name: "블로그 신문사", desc: "하젤의 이야기가 인쇄되는 곳", body: "#EAE3F2", roof: "#7B68C9", sign: "✍️",
     stages: [{ w: 7, b: 4 }, { w: 10, b: 6, g: 1 }, { w: 13, b: 8, g: 2 }] },
-  { id: "tower", name: "황금 시계탑", emoji: "⏳", done: "🕰", desc: "마을의 상징 · 최종 건축물",
+  { id: "tower", name: "황금 시계탑", desc: "마을의 상징 · 최종 건축물", body: "#F5E6C2", roof: "#D9A441", sign: "🕰", tall: true,
     stages: [{ w: 12, b: 8, g: 3 }, { w: 16, b: 10, g: 4 }, { w: 20, b: 12, g: 6 }] },
 ];
-const STAGE_NAMES = ["빈 터", "터 닦는 중", "골조 올리는 중", "완공!"];
+const STAGE_NAMES = ["빈 터", "기초 공사 중", "골조 올리는 중", "완공!"];
 const costText = (c) => [c.w ? "🪵" + c.w : "", c.b ? "🧱" + c.b : "", c.g ? "🪙" + c.g : ""].filter(Boolean).join(" ");
 const canAfford = (res, c) => res.wood >= (c.w || 0) && res.brick >= (c.b || 0) && res.gold >= (c.g || 0);
 
-/* 마을 칭호 */
 const VILLAGE_TITLES = [
   [0, "허허벌판"], [1, "개척지"], [3, "작은 마을"], [6, "북적이는 마을"],
   [10, "번영하는 마을"], [14, "전설의 하젤마을"], [18, "황금시대 하젤마을"],
 ];
 const villageTitle = (pts) => { let t = VILLAGE_TITLES[0][1]; for (const [p, n] of VILLAGE_TITLES) if (pts >= p) t = n; return t; };
+const HAZEL_RANKS = [[0, "견습 개척자"], [3, "현장 반장"], [8, "마을 사장님"], [14, "하젤마을 시장"]];
+const hazelRank = (pts) => { let t = HAZEL_RANKS[0][1]; for (const [p, n] of HAZEL_RANKS) if (pts >= p) t = n; return t; };
 
-/* ── 반장견 단추 ── */
-function Danchu({ grown = 0, size = 90, happy = false }) {
+/* ── 건물 SVG: 단계별로 진짜 올라간다 ── */
+function Building({ b, stage, size = 86 }) {
+  const tall = b.tall;
   return (
-    <svg width={size} height={size} viewBox="0 0 120 120" aria-label="반장견 단추">
-      <g className={happy ? "dog-bounce" : "dog-idle"}>
-        <path d="M97 78 Q110 70 106 58" stroke="#C99B53" strokeWidth="8" strokeLinecap="round" fill="none" className="dog-tail" />
-        <ellipse cx="72" cy="84" rx="28" ry="20" fill="#E0B36A" />
-        <ellipse cx="72" cy="90" rx="18" ry="11" fill="#F2DCB3" />
-        <ellipse cx="58" cy="100" rx="7" ry="5" fill="#D8A85C" />
-        <ellipse cx="80" cy="100" rx="7" ry="5" fill="#D8A85C" />
-        <circle cx="42" cy="58" r="26" fill="#E0B36A" />
-        <path d="M22 44 Q12 58 20 72 Q30 66 30 50 Z" fill="#B98445" />
-        <path d="M62 44 Q72 58 64 72 Q54 66 54 50 Z" fill="#B98445" />
-        <ellipse cx="42" cy="68" rx="13" ry="10" fill="#F2DCB3" />
-        <ellipse cx="42" cy="63" rx="4.5" ry="3.5" fill="#4A3B2A" />
-        <circle cx="33" cy="54" r="3" fill="#4A3B2A" />
-        <circle cx="51" cy="54" r="3" fill="#4A3B2A" />
-        <circle cx="34" cy="53" r="1" fill="#FFF" />
-        <circle cx="52" cy="53" r="1" fill="#FFF" />
-        {happy && <path d="M40 72 Q42 79 46 73 Q44 70 40 72" fill="#E2837B" />}
-        {/* 마을이 클수록 반장견 장비 업그레이드 */}
-        {grown >= 3 && <path d="M28 76 L56 76 L42 90 Z" fill="#D97E4A" />}
-        {grown >= 8 && <><circle cx="42" cy="86" r="5" fill="#D9A441" stroke="#A07B22" strokeWidth="1.5" /><path d="M42 84 L43.5 88 L40.5 88 Z" fill="#FFF3D6" /></>}
-        {grown >= 14 && <path d="M28 34 L33 25 L38 32 L42 23 L46 32 L51 25 L56 34 Z" fill="#D9A441" stroke="#A07B22" strokeWidth="1.5" strokeLinejoin="round" />}
+    <svg width={size} height={size} viewBox="0 0 100 100" aria-label={b.name + " " + STAGE_NAMES[stage]}>
+      {/* 땅 */}
+      <ellipse cx="50" cy="88" rx="40" ry="9" fill="rgba(74,59,42,.18)" />
+      {stage === 0 && (
+        <g>
+          <rect x="22" y="50" width="56" height="36" rx="4" fill="rgba(255,255,255,.25)" stroke="#6E5238" strokeWidth="2" strokeDasharray="5 4" />
+          <path d="M44 68 Q50 56 56 68" stroke="#5F8A4E" strokeWidth="3" fill="none" strokeLinecap="round" />
+          <text x="50" y="44" textAnchor="middle" fontSize="13" fill="#6E5238" fontFamily="Jua">빈 터</text>
+        </g>
+      )}
+      {stage === 1 && (
+        <g>
+          <rect x="22" y="74" width="56" height="12" rx="2" fill="#B5916B" stroke="#6E5238" strokeWidth="2" />
+          <rect x="28" y="60" width="6" height="16" fill="#8A6B4A" /><rect x="66" y="60" width="6" height="16" fill="#8A6B4A" />
+          {/* 크레인 */}
+          <rect x="80" y="30" width="5" height="56" fill="#D9A441" stroke="#A87F2C" strokeWidth="1.5" />
+          <rect x="48" y="28" width="38" height="5" fill="#D9A441" stroke="#A87F2C" strokeWidth="1.5" />
+          <line x1="54" y1="33" x2="54" y2="50" stroke="#6E5238" strokeWidth="2" />
+          <rect x="49" y="50" width="10" height="8" fill="#C75146" stroke="#8E3B2C" strokeWidth="1.5" className="crane-load" />
+        </g>
+      )}
+      {stage === 2 && (
+        <g>
+          <rect x="22" y="46" width="56" height="40" rx="3" fill={b.body} stroke="#6E5238" strokeWidth="2.5" />
+          <line x1="22" y1="60" x2="78" y2="60" stroke="rgba(110,82,56,.4)" strokeWidth="1.5" />
+          <line x1="22" y1="73" x2="78" y2="73" stroke="rgba(110,82,56,.4)" strokeWidth="1.5" />
+          {/* 비계 */}
+          <line x1="16" y1="40" x2="16" y2="86" stroke="#8A6B4A" strokeWidth="3" />
+          <line x1="84" y1="40" x2="84" y2="86" stroke="#8A6B4A" strokeWidth="3" />
+          <line x1="16" y1="44" x2="84" y2="44" stroke="#8A6B4A" strokeWidth="2.5" />
+          <line x1="16" y1="66" x2="84" y2="66" stroke="#8A6B4A" strokeWidth="2.5" />
+          <path d="M22 46 L50 28 L78 46" fill="none" stroke="#6E5238" strokeWidth="2" strokeDasharray="5 4" />
+        </g>
+      )}
+      {stage >= 3 && (
+        <g>
+          {tall ? (
+            <g>
+              <rect x="32" y="34" width="36" height="52" rx="3" fill={b.body} stroke="#6E5238" strokeWidth="2.5" />
+              <path d="M28 34 L50 14 L72 34 Z" fill={b.roof} stroke="#6E5238" strokeWidth="2.5" strokeLinejoin="round" />
+              <circle cx="50" cy="50" r="10" fill="#FFFDF4" stroke="#6E5238" strokeWidth="2" />
+              <line x1="50" y1="50" x2="50" y2="43" stroke="#6E5238" strokeWidth="2" strokeLinecap="round" />
+              <line x1="50" y1="50" x2="55" y2="52" stroke="#6E5238" strokeWidth="2" strokeLinecap="round" />
+              <rect x="44" y="68" width="12" height="18" rx="2" fill={b.roof} stroke="#6E5238" strokeWidth="2" />
+              <circle cx="50" cy="20" r="3" fill="#FFE9AE" stroke="#A87F2C" strokeWidth="1.5" className="spark" />
+            </g>
+          ) : (
+            <g>
+              <rect x="22" y="48" width="56" height="38" rx="3" fill={b.body} stroke="#6E5238" strokeWidth="2.5" />
+              <path d="M16 50 L50 26 L84 50 Z" fill={b.roof} stroke="#6E5238" strokeWidth="2.5" strokeLinejoin="round" />
+              <rect x="43" y="64" width="14" height="22" rx="2" fill={b.roof} stroke="#6E5238" strokeWidth="2" />
+              <circle cx="54" cy="75" r="1.6" fill="#3A2B07" />
+              <rect x="27" y="56" width="11" height="10" rx="2" fill="#FFFDF4" stroke="#6E5238" strokeWidth="1.8" />
+              <rect x="62" y="56" width="11" height="10" rx="2" fill="#FFFDF4" stroke="#6E5238" strokeWidth="1.8" />
+              <text x="50" y="44" textAnchor="middle" fontSize="12">{b.sign}</text>
+            </g>
+          )}
+        </g>
+      )}
+    </svg>
+  );
+}
+
+/* ── 하젤 캐릭터: 마을이 클수록 승진 ── */
+function Hazel({ grown = 0, size = 96, happy = false }) {
+  const rank = grown >= 14 ? 3 : grown >= 8 ? 2 : grown >= 3 ? 1 : 0;
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 130" aria-label={"하젤 — " + hazelRank(grown)}>
+      <g className={happy ? "hz-bounce" : "hz-idle"}>
+        {/* 뒷머리 */}
+        <path d="M28 52 Q24 86 38 92 L82 92 Q96 86 92 52 Q92 26 60 24 Q28 26 28 52 Z" fill="#5B4232" />
+        {/* 몸: 멜빵 작업복 */}
+        <path d="M40 92 Q40 86 48 85 L72 85 Q80 86 80 92 L82 116 Q60 122 38 116 Z" fill="#E8B44C" />
+        <path d="M44 92 L48 116 L38 116 Z" fill="#6E89A8" /><path d="M76 92 L72 116 L82 116 Z" fill="#6E89A8" />
+        <rect x="46" y="96" width="28" height="20" rx="4" fill="#6E89A8" />
+        <rect x="50" y="85" width="5" height="14" fill="#6E89A8" /><rect x="65" y="85" width="5" height="14" fill="#6E89A8" />
+        <circle cx="52.5" cy="99" r="1.8" fill="#D9A441" /><circle cx="67.5" cy="99" r="1.8" fill="#D9A441" />
+        {/* 팔 */}
+        <path d="M42 96 Q30 100 28 110" stroke="#E8B44C" strokeWidth="8" strokeLinecap="round" fill="none" />
+        {happy
+          ? <path d="M78 96 Q92 88 96 76" stroke="#E8B44C" strokeWidth="8" strokeLinecap="round" fill="none" />
+          : <path d="M78 96 Q90 100 92 110" stroke="#E8B44C" strokeWidth="8" strokeLinecap="round" fill="none" />}
+        <circle cx="27" cy="111" r="5" fill="#F7DCC0" />
+        <circle cx={happy ? 97 : 93} cy={happy ? 75 : 111} r="5" fill="#F7DCC0" />
+        {/* 얼굴 */}
+        <circle cx="60" cy="58" r="27" fill="#F7DCC0" />
+        {/* 앞머리 */}
+        <path d="M33 56 Q33 30 60 29 Q87 30 87 56 Q80 42 70 42 Q66 48 60 44 Q50 50 44 44 Q37 46 33 56 Z" fill="#6B4E3A" />
+        {/* 눈 */}
+        <circle cx="49" cy="60" r="3.4" fill="#3A2B1B" /><circle cx="71" cy="60" r="3.4" fill="#3A2B1B" />
+        <circle cx="50.2" cy="58.8" r="1.1" fill="#FFF" /><circle cx="72.2" cy="58.8" r="1.1" fill="#FFF" />
+        {/* 블러셔 + 입 */}
+        <circle cx="43" cy="68" r="3.6" fill="#F2B5A0" opacity=".75" /><circle cx="77" cy="68" r="3.6" fill="#F2B5A0" opacity=".75" />
+        {happy
+          ? <path d="M54 70 Q60 76 66 70" stroke="#B5614A" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          : <path d="M55 71 Q60 74 65 71" stroke="#B5614A" strokeWidth="2.5" fill="none" strokeLinecap="round" />}
+        {/* 직급 장비 */}
+        {rank < 3 && (
+          <g>{/* 안전모 */}
+            <path d="M36 44 Q36 24 60 24 Q84 24 84 44 Z" fill="#F2C94C" stroke="#A87F2C" strokeWidth="2" />
+            <rect x="32" y="42" width="56" height="6" rx="3" fill="#F2C94C" stroke="#A87F2C" strokeWidth="2" />
+            <rect x="55" y="24" width="10" height="8" rx="3" fill="#FFE9AE" stroke="#A87F2C" strokeWidth="1.5" />
+          </g>
+        )}
+        {rank >= 1 && <rect x="46" y="103" width="12" height="9" rx="1.5" fill="#FFFDF4" stroke="#6E5238" strokeWidth="1.5" />}
+        {rank >= 2 && <circle cx="70" cy="92" r="4.5" fill="#D9A441" stroke="#A87F2C" strokeWidth="1.5" />}
+        {rank >= 3 && (
+          <g>{/* 시장 왕관 + 어깨띠 */}
+            <path d="M42 30 L47 19 L53 27 L60 16 L67 27 L73 19 L78 30 Z" fill="#D9A441" stroke="#A87F2C" strokeWidth="2" strokeLinejoin="round" />
+            <path d="M46 88 L74 112" stroke="#C75146" strokeWidth="7" strokeLinecap="round" opacity=".9" />
+          </g>
+        )}
       </g>
     </svg>
   );
 }
 
 const DEFAULT_PROJECTS = [
-  { id: "p1", name: "I-751 서류 제출", deadline: "2026-07-01", note: "서류 조립 완료 후 발송" },
-  { id: "p2", name: "노션대학 7일 챌린지 배포", deadline: "2026-06-30", note: "워크북 최종 배포 (90%)" },
-  { id: "p3", name: "구매대행 브랜드 론칭", deadline: "", note: "브랜드명 확정 + 기초 세팅 (20%)" },
+  { id: "p1", name: "I-751 서류 제출", deadline: "2026-07-01", note: "서류 조립 완료 후 발송", todos: [] },
+  { id: "p2", name: "노션대학 7일 챌린지 배포", deadline: "2026-06-30", note: "워크북 최종 배포 (90%)", todos: [] },
+  { id: "p3", name: "구매대행 브랜드 론칭", deadline: "", note: "브랜드명 확정 + 기초 세팅 (20%)", todos: [] },
 ];
 
-/* ── 작업 의뢰 엔진 (게임 내장) ── */
+/* ── 작업 의뢰 엔진: 네가 적어둔 할 일이 1순위 ── */
 const FREE_JOBS = [
   { task: "노션대학 인스타에 다음 콘텐츠 1개 올리기", first: "인스타 앱을 열고 새 게시물을 누른다", venture: "노션대학" },
   { task: "블로그에 레스토랑 에피소드 1편 발행하기 (발행 버튼까지)", first: "블로그 앱을 열고 글쓰기를 누른다", venture: "블로그" },
@@ -339,11 +488,26 @@ function forgeJob(projects, history, blocked, time, energy) {
     if (db === null) return -1;
     return da - db;
   });
-  const candidates = sorted.filter((p) => p.deadline && !blockedText.includes(p.name));
+  const usable = sorted.filter((p) => !blockedText.includes(p.name));
+  const withDeadline = usable.filter((p) => p.deadline);
   const last = history[history.length - 1];
-  let target = candidates[0];
-  if (target && last && last.venture === target.name && candidates[1] && dday(candidates[1].deadline) <= 7) {
-    target = candidates[1];
+  let target = withDeadline[0];
+  if (target && last && last.venture === target.name && withDeadline[1] && dday(withDeadline[1].deadline) <= 7) {
+    target = withDeadline[1];
+  }
+  // 1순위: 대상 의뢰에 네가 적어둔 할 일이 있으면 그걸 그대로
+  const pickTodo = (proj) => {
+    if (!proj || !proj.todos) return null;
+    const blockedTasks = blocked.map((b) => b.task.task);
+    return proj.todos.find((t) => !t.done && !blockedTasks.includes(t.text)) || null;
+  };
+  let todoProj = target, todo = pickTodo(target);
+  if (!todo) {
+    for (const p of usable) { const t = pickTodo(p); if (t) { todoProj = p; todo = t; break; } }
+  }
+  if (todo) {
+    const d = todoProj.deadline ? "납기 " + ddayLabel(todoProj.deadline) + ". " : "";
+    return { task: todo.text, why: d + "네가 직접 적어둔 할 일이야 — 떠올랐을 때 적어둔 너, 잘했다.", firstStep: "이 할 일에 필요한 앱이나 파일을 연다", venture: todoProj.name, minutes: Math.min(time, energy === "low" ? 15 : 30), ref: { pid: todoProj.id, tid: todo.id } };
   }
   if (target) {
     const d = ddayLabel(target.deadline);
@@ -359,7 +523,6 @@ function forgeJob(projects, history, blocked, time, energy) {
   return { task: q.task, why: "납기 의뢰가 없을 땐, 세상 밖으로 내보내는 작업이 제일 비싼 자원을 줘.", firstStep: q.first, venture: q.venture, minutes: Math.min(time, 30) };
 }
 
-/* ── 작업 쪼개기 사다리 ── */
 const SPLIT_LADDER = [
   { suffix: " — 의 첫 10분만", why: "공정 분할 1단계. 10분 작업도 자재는 나와.", first: "작업 타이머의 시작을 누른다", min: 10 },
   { suffix: " — 딱 한 단위만 (한 문장/한 장/한 명)", why: "공정 분할 2단계. 벽돌 한 장만 쌓아도 공사야.", first: "그 '하나'가 뭔지 소리 내어 말한다", min: 5 },
@@ -380,7 +543,6 @@ const ENERGY_OPTIONS = [
   { label: "🔥", sub: "풀파워", value: "high" },
 ];
 
-/* 자원 보상 계산 */
 function calcLoot(minutes, streak) {
   const wood = 3 + Math.floor(minutes / 10);
   const brick = minutes >= 20 ? 1 + Math.floor(minutes / 30) : 0;
@@ -390,14 +552,22 @@ function calcLoot(minutes, streak) {
 }
 
 const STORE_KEY = "hazel-tycoon-v1";
-const loadState = () => { try { const s = localStorage.getItem(STORE_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } };
+const normalize = (st) => {
+  if (!st) return null;
+  st.projects = (st.projects || DEFAULT_PROJECTS).map((p) => ({ ...p, todos: p.todos || [] }));
+  st.blocked = st.blocked || [];
+  st.res = st.res || { wood: 0, brick: 0, gold: 0 };
+  st.built = st.built || {};
+  st.history = st.history || [];
+  return st;
+};
+const loadState = () => { try { const s = localStorage.getItem(STORE_KEY); return normalize(s ? JSON.parse(s) : null); } catch (e) { return null; } };
 const saveState = (st) => { try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {} };
 
 function Game() {
   const [screen, setScreen] = useState("title");
   const [state, setState] = useState(() => loadState() || {
-    res: { wood: 0, brick: 0, gold: 0 },
-    built: {}, // id -> 완료한 단계 수 (0~3)
+    res: { wood: 0, brick: 0, gold: 0 }, built: {},
     history: [], currentTask: null, shrinkCount: 0,
     projects: DEFAULT_PROJECTS, blocked: [],
   });
@@ -416,6 +586,10 @@ function Game() {
   const [lastLoot, setLastLoot] = useState({ wood: 0, brick: 0, gold: 0 });
   const [buildMsg, setBuildMsg] = useState("");
   const [selected, setSelected] = useState(null);
+  const [flash, setFlash] = useState(false); // 번뜩 캡처 패널
+  const [flashText, setFlashText] = useState("");
+  const [flashProj, setFlashProj] = useState("");
+  const [todoText, setTodoText] = useState({}); // 의뢰별 할 일 입력
   const [elapsed, setElapsed] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
   const tickRef = useRef(null);
@@ -429,11 +603,10 @@ function Game() {
   }, [timerOn]);
   const fmt = (s) => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
 
-  /* 파생 */
   const { history, projects, blocked, res, built } = state;
   const stagePts = Object.values(built).reduce((a, b) => a + b, 0);
   const completedCount = BUILDINGS.filter((b) => (built[b.id] || 0) >= 3).length;
-  const vTitle = villageTitle(stagePts);
+  const pop = stagePts * 3 + completedCount * 5;
   const doneDates = [...new Set(history.map((h) => h.date))].sort();
   const doneToday = doneDates.includes(todayKey());
   let streak = 0;
@@ -454,8 +627,9 @@ function Game() {
     return da - db;
   });
   const urgent = sortedProjects.find((p) => p.deadline);
+  const openTodos = projects.reduce((n, p) => n + p.todos.filter((t) => !t.done).length, 0);
 
-  /* 작업 */
+  /* 작업 흐름 */
   const startJob = () => {
     const q = forgeJob(projects, history, blocked, time, energy);
     persist({ ...state, currentTask: q, shrinkCount: 0 });
@@ -475,9 +649,17 @@ function Game() {
     const cur = state.currentTask;
     const loot = calcLoot(cur.minutes || 10, streak);
     const entry = { date: todayKey(), task: cur.task, venture: cur.venture, output: outputLine.trim(), spent: elapsed > 0 ? Math.round(elapsed / 60) : null };
+    // 번뜩 할 일에서 나온 작업이면 자동 체크
+    let nextProjects = projects;
+    if (cur.ref) {
+      nextProjects = projects.map((p) => p.id === cur.ref.pid
+        ? { ...p, todos: p.todos.map((t) => (t.id === cur.ref.tid ? { ...t, done: true } : t)) }
+        : p);
+    }
     setLastLoot(loot);
+    sfx("done");
     persist({
-      ...state,
+      ...state, projects: nextProjects,
       res: { wood: res.wood + loot.wood, brick: res.brick + loot.brick, gold: res.gold + loot.gold },
       history: [...history, entry], currentTask: null, shrinkCount: 0,
     });
@@ -517,6 +699,7 @@ function Game() {
     const cost = b.stages[cur];
     if (!canAfford(res, cost)) return;
     const nextStage = cur + 1;
+    sfx("build");
     persist({
       ...state,
       res: { wood: res.wood - (cost.w || 0), brick: res.brick - (cost.b || 0), gold: res.gold - (cost.g || 0) },
@@ -526,10 +709,33 @@ function Game() {
     setTimeout(() => setBuildMsg(""), 2500);
   };
 
+  /* 번뜩 할 일 캡처 */
+  const saveFlash = () => {
+    if (!flashText.trim()) return;
+    const pid = flashProj || (urgent ? urgent.id : (projects[0] && projects[0].id));
+    if (!pid) return;
+    persist({ ...state, projects: projects.map((p) => p.id === pid ? { ...p, todos: [...p.todos, { id: "t" + Date.now(), text: flashText.trim(), done: false }] } : p) });
+    setFlashText(""); setFlash(false);
+    setBuildMsg("💡 할 일 접수! 다음 작업 뽑기에 반영돼");
+    setTimeout(() => setBuildMsg(""), 2200);
+  };
+  const addTodo = (pid) => {
+    const txt = (todoText[pid] || "").trim();
+    if (!txt) return;
+    persist({ ...state, projects: projects.map((p) => p.id === pid ? { ...p, todos: [...p.todos, { id: "t" + Date.now(), text: txt, done: false }] } : p) });
+    setTodoText({ ...todoText, [pid]: "" });
+  };
+  const toggleTodo = (pid, tid) => {
+    persist({ ...state, projects: projects.map((p) => p.id === pid ? { ...p, todos: p.todos.map((t) => (t.id === tid ? { ...t, done: !t.done } : t)) } : p) });
+  };
+  const removeTodo = (pid, tid) => {
+    persist({ ...state, projects: projects.map((p) => p.id === pid ? { ...p, todos: p.todos.filter((t) => t.id !== tid) } : p) });
+  };
+
   /* 의뢰 관리 */
   const addProject = () => {
     if (!pName.trim()) return;
-    persist({ ...state, projects: [...projects, { id: "p" + Date.now(), name: pName.trim(), deadline: pDate || "", note: pNote.trim() }] });
+    persist({ ...state, projects: [...projects, { id: "p" + Date.now(), name: pName.trim(), deadline: pDate || "", note: pNote.trim(), todos: [] }] });
     setPName(""); setPDate(""); setPNote("");
   };
   const removeProject = (id) => {
@@ -545,11 +751,23 @@ function Game() {
 
   const ddClass = (dl) => { const n = dday(dl); if (n === null) return "free"; if (n <= 7) return "hot"; if (n <= 21) return "warm"; return "free"; };
 
-  const ResBar = () => (
-    <div className="resbar plank">
-      <span>🪵 {res.wood}</span><span>🧱 {res.brick}</span><span>🪙 {res.gold}</span>
-      <span className="resbar-streak">🔥 {streak}일</span>
-    </div>
+  const FlashPanel = () => (
+    flash ? (
+      <div className="plank flashbox">
+        <div className="sec-label dark">💡 갑자기 떠오른 할 일</div>
+        <input type="text" autoFocus value={flashText} onChange={(e) => setFlashText(e.target.value)} placeholder="예: 워크북 표지 오타 고치기" />
+        <select value={flashProj || (urgent ? urgent.id : "")} onChange={(e) => setFlashProj(e.target.value)}>
+          {sortedProjects.map((p) => <option key={p.id} value={p.id}>{p.name} ({ddayLabel(p.deadline)})</option>)}
+        </select>
+        <div className="edit-row">
+          <button className="btn-sub gold" disabled={!flashText.trim()} onClick={saveFlash}>적어두기</button>
+          <button className="btn-sub" onClick={() => { setFlash(false); setFlashText(""); }}>취소</button>
+        </div>
+        <div className="board-hint small">적어두면 작업 뽑기가 이걸 1순위로 골라줘.</div>
+      </div>
+    ) : (
+      <button className="btn-flash" onClick={() => setFlash(true)}>💡 할 일이 번뜩 떠올랐어!{openTodos > 0 ? " (대기 " + openTodos + "개)" : ""}</button>
+    )
   );
 
   /* ═══════════ 화면 ═══════════ */
@@ -562,7 +780,7 @@ function Game() {
           <div className="title-eyebrow">HAZEL VILLAGE TYCOON</div>
           <h1 className="game-title">하젤마을<br />타이쿤</h1>
           <div className="title-sub">현실의 작업으로 자원을 캐고, 마을을 짓는 게임</div>
-          <div className="title-dog"><Danchu grown={stagePts} size={120} happy /></div>
+          <div className="title-hero"><Hazel grown={stagePts} size={140} happy /></div>
           <button className="btn-main" onClick={() => setScreen("village")}>{history.length > 0 ? "마을로 돌아가기" : "개척 시작"}</button>
           <div className="title-foot">아무것도 하지 않으면 아무것도 지어지지 않는다</div>
         </div>
@@ -576,10 +794,13 @@ function Game() {
         <div className="clouds" aria-hidden="true"></div>
         <div className="wrap">
           <div className="vhead">
-            <div className="vname">하젤마을 <span className="vtitle">{vTitle}</span></div>
-            <div className="vsub">건설 {stagePts}단계 · 완공 {completedCount}/6 · 작업 {history.length}회</div>
+            <div className="vname">하젤마을 <span className="vtitle">{villageTitle(stagePts)}</span></div>
+            <div className="vsub">👥 주민 {pop}명 · 완공 {completedCount}/6 · 하젤 직급: {hazelRank(stagePts)}</div>
           </div>
-          <ResBar />
+          <div className="resbar plank">
+            <span>🪵 {res.wood}</span><span>🧱 {res.brick}</span><span>🪙 {res.gold}</span>
+            <span className="resbar-streak">🔥 {streak}일</span>
+          </div>
           {buildMsg && <div className="buildmsg">{buildMsg}</div>}
           <div className="field">
             <div className="plots">
@@ -587,15 +808,14 @@ function Game() {
                 const st = built[b.id] || 0;
                 const isSel = selected === b.id;
                 return (
-                  <button key={b.id} className={"plot st" + st + (isSel ? " sel" : "")} onClick={() => setSelected(isSel ? null : b.id)}>
-                    <span className="plot-emoji">{st === 0 ? "·" : st >= 3 ? b.done : st === 1 ? "🏗" : "🧱"}</span>
-                    <span className="plot-name">{st === 0 ? "빈 터" : b.name}</span>
-                    {st > 0 && st < 3 && <span className="plot-stage">{st}/3</span>}
+                  <button key={b.id} className={"plot" + (isSel ? " sel" : "") + (st >= 3 ? " complete" : "")} onClick={() => setSelected(isSel ? null : b.id)}>
+                    <Building b={b} stage={st} size={92} />
+                    <span className="plot-name">{st === 0 ? "빈 터" : b.name}{st > 0 && st < 3 ? " " + st + "/3" : ""}</span>
                   </button>
                 );
               })}
-              <div className="field-dog"><Danchu grown={stagePts} size={56} /></div>
             </div>
+            <div className="field-hero"><Hazel grown={stagePts} size={64} /></div>
           </div>
           {selected && (() => {
             const b = BUILDINGS.find((x) => x.id === selected);
@@ -604,7 +824,7 @@ function Game() {
             return (
               <div className="plank detail">
                 <div className="detail-top">
-                  <span className="detail-emoji">{st >= 3 ? b.done : b.emoji}</span>
+                  <Building b={b} stage={st} size={58} />
                   <div className="detail-info">
                     <div className="detail-name">{b.name}</div>
                     <div className="detail-desc">{b.desc} · {STAGE_NAMES[st]}</div>
@@ -615,12 +835,13 @@ function Game() {
                     {st === 0 ? "착공" : st === 1 ? "골조 올리기" : "완공시키기"} — {costText(cost)}
                   </button>
                 ) : (
-                  <div className="detail-done">완공! 마을의 자랑이야 ✨</div>
+                  <div className="detail-done">완공! 주민들이 모여든다 ✨</div>
                 )}
                 {cost && !canAfford(res, cost) && <div className="detail-need">자원이 부족해 — 작업을 나가서 캐오자!</div>}
               </div>
             );
           })()}
+          <FlashPanel />
           {urgent && (
             <button className="plank urgent" onClick={() => setScreen("board")}>
               <span className="urgent-label">납기 임박</span>
@@ -639,7 +860,7 @@ function Game() {
             </div>
           ))}
           <button className="btn-main" onClick={() => setScreen("prepare")}>⛏ {doneToday ? "한 탕 더 나가기" : "오늘의 작업 나가기"}</button>
-          <button className="btn-flat" onClick={() => setScreen("board")}>📋 의뢰 게시판 (목표 {projects.length}개 관리)</button>
+          <button className="btn-flat" onClick={() => setScreen("board")}>📋 의뢰 게시판 — 목표 {projects.length}개 · 할 일 {openTodos}개</button>
           {history.length > 0 && (
             <div className="journal">
               <div className="sec-label">📒 작업 일지</div>
@@ -663,7 +884,8 @@ function Game() {
         <div className="clouds" aria-hidden="true"></div>
         <div className="wrap">
           <div className="screen-label">📋 의뢰 게시판</div>
-          <div className="board-hint">작업은 납기가 급한 의뢰부터 나와. ✎로 이름·납기·메모를 고칠 수 있어.</div>
+          <div className="board-hint">작업은 납기 급한 의뢰의 ☐ 할 일부터 나와. ✎로 의뢰를 고치고, 떠오른 할 일은 바로 적어둬.</div>
+          <FlashPanel />
           {sortedProjects.map((p) => (
             <div className="plank order" key={p.id}>
               <div className="order-row">
@@ -687,6 +909,19 @@ function Game() {
                   <div className="board-hint small">날짜를 비우면 "자유" 의뢰가 돼</div>
                 </div>
               )}
+              <div className="todos">
+                {p.todos.map((t) => (
+                  <div className={"todo" + (t.done ? " done" : "")} key={t.id}>
+                    <button className="todo-check" onClick={() => toggleTodo(p.id, t.id)}>{t.done ? "☑" : "☐"}</button>
+                    <span className="todo-text">{t.text}</span>
+                    <button className="todo-del" onClick={() => removeTodo(p.id, t.id)}>✕</button>
+                  </div>
+                ))}
+                <div className="todo-add">
+                  <input type="text" value={todoText[p.id] || ""} onChange={(e) => setTodoText({ ...todoText, [p.id]: e.target.value })} placeholder="+ 이 의뢰에 할 일 적어두기" />
+                  <button className="btn-sub gold" disabled={!(todoText[p.id] || "").trim()} onClick={() => addTodo(p.id)}>추가</button>
+                </div>
+              </div>
             </div>
           ))}
           <div className="plank order new">
@@ -742,7 +977,7 @@ function Game() {
         <div className="wrap">
           <div className="screen-label">🔨 작업 현장</div>
           <div className="plank site">
-            <div className="site-tag">{t.venture}{state.shrinkCount > 0 ? " · 공정 분할 ×" + state.shrinkCount : ""}</div>
+            <div className="site-tag">{t.venture}{t.ref ? " · 💡 네가 적어둔 할 일" : ""}{state.shrinkCount > 0 ? " · 공정 분할 ×" + state.shrinkCount : ""}</div>
             <div className="site-name">{t.task}</div>
             <div className="site-why">{t.why}</div>
             <div className="first-step"><b>첫 삽 (30초)</b>{t.firstStep}</div>
@@ -750,7 +985,7 @@ function Game() {
           </div>
           <div className="plank timer">
             <span className="timer-t">{fmt(elapsed)}</span>
-            <span className="timer-lbl">{timerOn ? "작업 중! 단추가 현장을 지키는 중" : "시작을 누르면 작업 시간이 흘러 (선택)"}</span>
+            <span className="timer-lbl">{timerOn ? "작업 중! 하젤 시장이 현장 순찰 중" : "시작을 누르면 작업 시간이 흘러 (선택)"}</span>
             <button className={"btn-sub " + (timerOn ? "" : "green")} onClick={() => setTimerOn(!timerOn)}>{timerOn ? "정지" : "시작"}</button>
           </div>
           <div className="sec-label">작업 보고 — 뭘 끝냈는지 한 줄</div>
@@ -780,10 +1015,13 @@ function Game() {
     return (
       <div className="tycoon">
         <div className="clouds" aria-hidden="true"></div>
+        <div className="particles" aria-hidden="true">
+          <span>🪵</span><span>🧱</span><span>🪙</span><span>🪵</span><span>✨</span><span>🪵</span>
+        </div>
         <div className="wrap payday-wrap">
           <div className="payday-burst">정산 완료!</div>
-          <div className="payday-dog"><Danchu grown={stagePts} size={104} happy /></div>
-          <div className="payday-msg">단추가 수레에 자원을 싣고 왔다</div>
+          <div className="payday-hero"><Hazel grown={stagePts} size={116} happy /></div>
+          <div className="payday-msg">하젤이 수레 가득 자원을 싣고 돌아왔다</div>
           <div className="loot-row">
             <div className="loot plank"><b>+{lastLoot.wood}</b><i>🪵 목재</i></div>
             {lastLoot.brick > 0 && <div className="loot plank"><b>+{lastLoot.brick}</b><i>🧱 벽돌</i></div>}
