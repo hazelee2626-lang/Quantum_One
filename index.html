@@ -594,55 +594,35 @@ const DEFAULT_PROJECTS=[
   {id:"p2",name:"노션대학 7일 챌린지 배포",deadline:"2026-06-30",note:"워크북 최종 배포 (90%)",todos:[]},
   {id:"p3",name:"구매대행 브랜드 론칭",deadline:"",note:"브랜드명 확정 + 기초 세팅 (20%)",todos:[]},
 ];
-const FREE_JOBS=[
-  {task:"노션대학 인스타에 다음 콘텐츠 1개 올리기",first:"인스타 앱을 열고 새 게시물을 누른다",venture:"노션대학"},
-  {task:"블로그에 레스토랑 에피소드 1편 발행하기 (발행 버튼까지)",first:"블로그 앱을 열고 글쓰기를 누른다",venture:"블로그"},
-  {task:"구매대행 잠재 고객 1명에게 의향 묻는 메시지 보내기",first:"인스타 DM을 열고 떠오르는 1명을 검색한다",venture:"구매대행"},
-];
-
-/* ── 작업 엔진: skippedTodoIds 추가, 완료/최근 기록 중복 방지 ── */
+/* ── 작업 엔진: 네가 직접 적은 할일만 반환. 없으면 null ── */
 function forgeJob(projects,history,blocked,time,energy,skippedIds=[]){
-  const blockedText=blocked.map(b=>(b.task.venture||"")+" "+b.task.task).join(" ");
+  const blockedTasks=blocked.map(b=>b.task.task);
   const recentTasks=history.slice(-5).map(h=>h.task);
   const sorted=[...projects].sort((a,b)=>{
     const da=dday(a.deadline),db=dday(b.deadline);
     if(da===null&&db===null)return 0;if(da===null)return 1;if(db===null)return -1;return da-db;
   });
-  const usable=sorted.filter(p=>!blockedText.includes(p.name));
-  const withDL=usable.filter(p=>p.deadline);
-  const last=history[history.length-1];
-  let target=withDL[0];
-  if(target&&last&&last.venture===target.name&&withDL[1]&&dday(withDL[1].deadline)<=7)target=withDL[1];
-
-  const pickTodo=proj=>{
-    if(!proj||!proj.todos)return null;
-    const blockedTasks=blocked.map(b=>b.task.task);
-    return proj.todos.find(t=>
+  for(const proj of sorted){
+    if(!proj.todos)continue;
+    const todo=proj.todos.find(t=>
       !t.done&&
       !blockedTasks.includes(t.text)&&
       !skippedIds.includes(t.id)&&
-      !recentTasks.some(r=>r===t.text) // 최근 완료 중복 제거
-    )||null;
-  };
-  // 1순위: 네가 직접 적어둔 할 일
-  let todoProj=target, todo=pickTodo(target);
-  if(!todo){for(const p of usable){const t=pickTodo(p);if(t){todoProj=p;todo=t;break;}}}
-  if(todo){
-    const d=todoProj.deadline?"납기 "+ddayLabel(todoProj.deadline)+". ":"";
-    return{task:todo.text,why:d+"네가 직접 적어둔 할 일이야. 떠올랐을 때 적어둔 너, 잘했다.",
-      firstStep:"이 할 일에 필요한 앱이나 파일을 연다",venture:todoProj.name,
-      minutes:Math.min(time,energy==="low"?15:30),ref:{pid:todoProj.id,tid:todo.id}};
+      !recentTasks.includes(t.text)
+    );
+    if(todo){
+      const d=proj.deadline?"[납기 "+ddayLabel(proj.deadline)+"] ":"";
+      return{
+        task:todo.text,
+        why:d+proj.name+" 의뢰에 네가 직접 적어둔 할 일이야.",
+        firstStep:"이 할 일에 필요한 앱이나 파일을 연다",
+        venture:proj.name,
+        minutes:Math.min(time,energy==="low"?15:30),
+        ref:{pid:proj.id,tid:todo.id}
+      };
+    }
   }
-  if(target){
-    const d=ddayLabel(target.deadline);
-    if(energy==="low"||time<=10)
-      return{task:target.name+" — 가장 쉬운 조각 하나만 처리하기",why:"납기 "+d+". 컨디션 낮은 날엔 만만한 자재 하나만 옮겨도 공사는 굴러가.",firstStep:"이 작업에 필요한 앱이나 파일을 연다",venture:target.name,minutes:Math.min(time,10)};
-    if(time>=60&&energy==="high")
-      return{task:target.name+" — 완료에 가장 가까워지는 큰 덩어리 하나 끝내기",why:"납기 "+d+"! 풀파워일 때 대형 자재를 옮겨야 보상이 커.",firstStep:"이 작업의 앱이나 파일을 열고, 끝낼 덩어리 하나를 정한다",venture:target.name,minutes:Math.min(time,90)};
-    return{task:target.name+" — 다음 한 걸음 전진시키기",why:"납기 "+d+". 매일 한 걸음이면 납기 전에 준공돼.",firstStep:"이 작업의 앱이나 파일을 연다",venture:target.name,minutes:Math.min(time,30)};
-  }
-  const q=FREE_JOBS[history.length%FREE_JOBS.length];
-  return{task:q.task,why:"납기 의뢰가 없을 땐, 세상 밖으로 내보내는 작업이 제일 비싼 자원을 줘.",firstStep:q.first,venture:q.venture,minutes:Math.min(time,30)};
+  return null;
 }
 
 const SPLIT_LADDER=[
@@ -729,6 +709,7 @@ function Game(){
 
   const startJob=()=>{
     const q=forgeJob(projects,history,blocked,time,energy,skipped);
+    if(!q){setScreen("board");return;}
     persist({...state,currentTask:q,shrinkCount:0});
     setElapsed(0);setTimerOn(false);setShowBlock(false);setBlockReason("");
     setScreen("work");
@@ -1044,7 +1025,11 @@ function Game(){
         ))}
       </div>
       <div className="loot-preview">예상 보상: 🪵 {time?3+Math.floor(time/10):"?"} {time>=20?"🧱 "+(1+Math.floor(time/30)):""} {time>=60?"🪙 1":""}{streak>=3?" (+연속 보너스 🪙1)":""}</div>
+      {time&&energy&&openTodos===0&&<div className="loot-preview" style={{color:"#AA3300",marginTop:12}}>
+        ⚠️ 적어둔 할 일이 없어! 게시판에 먼저 할 일을 적어줘.
+      </div>}
       <button className="btn-main" disabled={!time||!energy} onClick={startJob}>작업 의뢰 받기</button>
+      {time&&energy&&openTodos===0&&<button className="btn-green" onClick={()=>setScreen("board")}>📋 게시판에서 할 일 적기</button>}
       <button className="btn-flat" onClick={()=>setScreen("village")}>← 마을로</button>
     </div></div>
   );
@@ -1056,7 +1041,7 @@ function Game(){
       <div className="wrap">
         <div className="screen-lbl">🔨 작업 현장</div>
         <div className="panel site-card">
-          <div className="site-tag">{t.venture}{t.ref?" · 💡 네가 적어둔 할 일":""}{state.shrinkCount>0?" · 공정 분할 ×"+state.shrinkCount:""}</div>
+          <div className="site-tag">{t.venture}{state.shrinkCount>0?" · 공정 분할 ×"+state.shrinkCount:""}</div>
           <div className="site-name">{t.task}</div>
           <div className="site-why">{t.why}</div>
           <div className="first-step"><b>첫 삽 (30초)</b>{t.firstStep}</div>
